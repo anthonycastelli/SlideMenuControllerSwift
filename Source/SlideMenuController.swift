@@ -35,7 +35,7 @@ public struct SlideMenuOptions {
     public static var hideStatusBar: Bool = true
     public static var pointOfNoReturnWidth: CGFloat = 44.0
     public static var simultaneousGestureRecognizers: Bool = true
-	public static var opacityViewBackgroundColor: UIColor = UIColor.black()
+	public static var opacityViewBackgroundColor: UIColor = UIColor.black
 }
 
 public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
@@ -115,7 +115,7 @@ public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate 
     
     public func initView() {
         mainContainerView = UIView(frame: view.bounds)
-        mainContainerView.backgroundColor = UIColor.clear()
+        mainContainerView.backgroundColor = UIColor.clear
         mainContainerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         view.insertSubview(mainContainerView, at: 0)
 
@@ -137,7 +137,7 @@ public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate 
         leftFrame.origin.y = leftFrame.origin.y + leftOffset
         leftFrame.size.height = leftFrame.size.height - leftOffset
         leftContainerView = UIView(frame: leftFrame)
-        leftContainerView.backgroundColor = UIColor.clear()
+        leftContainerView.backgroundColor = UIColor.clear
         leftContainerView.autoresizingMask = UIViewAutoresizing.flexibleHeight
         view.insertSubview(leftContainerView, at: 2)
         addLeftGestures()
@@ -151,7 +151,7 @@ public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate 
         rightFrame.origin.y = rightFrame.origin.y + rightOffset;
         rightFrame.size.height = rightFrame.size.height - rightOffset
         rightContainerView = UIView(frame: rightFrame)
-        rightContainerView.backgroundColor = UIColor.clear()
+        rightContainerView.backgroundColor = UIColor.clear
         rightContainerView.autoresizingMask = UIViewAutoresizing.flexibleHeight
         view.insertSubview(rightContainerView, at: 3)
         addRightGestures()
@@ -187,17 +187,17 @@ public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate 
         edgesForExtendedLayout = UIRectEdge()
     }
     
-    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if let mainController = self.mainViewController{
-            return mainController.supportedInterfaceOrientations()
+            return mainController.supportedInterfaceOrientations
         }
         return UIInterfaceOrientationMask.all
     }
     
-    public override func shouldAutorotate() -> Bool {
-        return mainViewController?.shouldAutorotate() ?? false
+    public override var shouldAutorotate: Bool {
+        return mainViewController?.shouldAutorotate ?? false
     }
-        
+    
     public override func viewWillLayoutSubviews() {
         // topLayoutGuideの値が確定するこのタイミングで各種ViewControllerをセットする
         setUpViewController(mainContainerView, targetViewController: mainViewController)
@@ -868,7 +868,7 @@ public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate 
     private func setOpenWindowLevel() {
         if (SlideMenuOptions.hideStatusBar) {
             DispatchQueue.main.async(execute: {
-                if let window = UIApplication.shared().keyWindow {
+                if let window = UIApplication.shared.keyWindow {
                     window.windowLevel = UIWindowLevelStatusBar + 1
                 }
             })
@@ -878,7 +878,7 @@ public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate 
     private func setCloseWindowLevel() {
         if (SlideMenuOptions.hideStatusBar) {
             DispatchQueue.main.async(execute: {
-                if let window = UIApplication.shared().keyWindow {
+                if let window = UIApplication.shared.keyWindow {
                     window.windowLevel = UIWindowLevelNormal
                 }
             })
@@ -960,7 +960,7 @@ public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate 
             var leftBezelRect: CGRect = CGRect.zero
             var tempRect: CGRect = CGRect.zero
         
-            view.bounds.divide(slice: &leftBezelRect, remainder: &tempRect, amount: bezelWidth, edge: CGRectEdge.minXEdge)
+            view.bounds.divided(slice: &leftBezelRect, remainder: &tempRect, atDistance: bezelWidth, from: CGRectEdge.minXEdge)
             return leftBezelRect.contains(point)
         } else {
             return true
@@ -983,7 +983,7 @@ public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate 
             var tempRect: CGRect = CGRect.zero
             let bezelWidth: CGFloat = view.bounds.width - rightBezelWidth
         
-            view.bounds.divide(slice: &tempRect, remainder: &rightBezelRect, amount: bezelWidth, edge: CGRectEdge.minXEdge)
+            view.bounds.divided(slice: &tempRect, remainder: &rightBezelRect, atDistance: bezelWidth, from: CGRectEdge.minXEdge)
         
             return rightBezelRect.contains(point)
         } else {
